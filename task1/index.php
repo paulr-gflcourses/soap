@@ -86,7 +86,6 @@ function curlMethod($url, $methodName, $params=[])
     $output = curl_exec($ch); 
     curl_close($ch);  
     return simplexml_load_string($output);
-
 }
 
 $url="https://www.w3schools.com/xml/tempconvert.asmx";
