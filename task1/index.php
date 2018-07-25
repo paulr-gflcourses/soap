@@ -46,8 +46,8 @@ function serviceCurl()
     //var_dump($output);
     //$oXML = new SimpleXMLElement($output);
 
-    //$oXML = simplexml_load_string($output, 'SimpleXMLElement', LIBXML_NOCDATA);
-    //var_dump($oXML);
+    $oXML = simplexml_load_string($output);
+    var_dump($oXML);
     //foreach($oXML->entry as $oEntry){
         ////echo $oEntry->title . "\n";
         //var_dump($oEntry);
