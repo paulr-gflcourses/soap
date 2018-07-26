@@ -1,111 +1,43 @@
 <?php
 include_once "config.php";
+include_once "libs/WSDLService.php";
 
-function serviceSoap1()
+
+if ($_GET['celsius'])
 {
-    $url="https://www.w3schools.com/xml/tempconvert.asmx?WSDL";
-    $client = new SoapClient($url);
-    //var_dump($client->__getFunctions());
-    $result = $client->CelsiusToFahrenheit(array('Celsius' => '10'));
-    echo $result->CelsiusToFahrenheitResult . "\n";
-}
-
-function soapMethod($url, $methodName, $returnName, $params=[])
-{
-    $client = new SoapClient($url.'?WSDL');
-    $result = $client->$methodName($params);
-    return $result->$returnName;
-}
-//function serviceSoap2()
-//{
-    //$url="http://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL";
-    //$client = new SoapClient($url);
-    //$result = $client->NumberToWords(array('ubiNum' => '2931'));
-    //echo $result->NumberToWordsResult;
-//}
-
-function serviceSoap2()
-{
-    $url = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL";
-    $client = new SoapClient($url);
-    var_dump($client->__getFunctions());
-    //$result = $client->ListOfContinentsByName();
-    $result = $client->ListOfCountryNamesByName();
-    $result = $result->ListOfCountryNamesByNameResult->tCountryCodeAndName;
-    var_dump($result);
-    print $result[0]->sName;
-    //$res2 = $result->ListOfContinentsByNameResult->tContinent;
-    //var_dump($res2);
-}
-
-function serviceCurl2()
-{
-    $url = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso";
-    //$methodName = '/ListOfContinentsByName';
-    $methodName = '/ListOfCountryNamesByName';
-    $ch = curl_init(); 
-    curl_setopt($ch, CURLOPT_URL, $url.$methodName);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch); 
-    curl_close($ch);  
-
-    var_dump($output);
-    //$oXML = new SimpleXMLElement($output);
-    $countries = simplexml_load_string($output);
-    foreach($countries as $country){
-        echo $country->sName." (".$country->sISOCode.")\n";
-    }
-}
-
-function serviceCurl1()
-{
+    $celsius = $_GET['celsius'];
     $url="https://www.w3schools.com/xml/tempconvert.asmx";
-    $methodName = '/CelsiusToFahrenheit';
-    $data = ['Celsius'=>'10'];
-    $ch = curl_init(); 
-    curl_setopt($ch, CURLOPT_URL, $url.$methodName);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    $output = curl_exec($ch); 
-    curl_close($ch);  
-    $fahrenheit = simplexml_load_string($output);
-    print $fahrenheit;
-}
+    $methodName = "CelsiusToFahrenheit";
+    $returnName = "CelsiusToFahrenheitResult";
+    $elementName = '';
+    $params = ['Celsius'=>"$celsius"];
 
-function curlMethod($url, $methodName, $params=[])
-{
-    $ch = curl_init(); 
-    curl_setopt($ch, CURLOPT_URL, $url.'/'.$methodName);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    if ($params)
+    $service = new WSDLService($url, $methodName, $returnName, $elementName, $params);
+    if ($_GET['typeSend']=='soap')
     {
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        $celsToFar = $service->soapMethod();
+    }else
+    {
+        $celsToFar = $service->curlMethod();
     }
-    $output = curl_exec($ch); 
-    curl_close($ch);  
-    return simplexml_load_string($output);
 }
 
-$url="https://www.w3schools.com/xml/tempconvert.asmx";
-$methodName = "CelsiusToFahrenheit";
-$returnName = "CelsiusToFahrenheitResult";
-$params = ['Celsius'=>'10'];
-//echo soapMethod($url, $methodName, $returnName, $params);
-echo curlMethod($url, $methodName, $params);
+if ($_GET['countryList'])
+{
+    $url2 = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso";
+    $methodName2 = "ListOfCountryNamesByName";
+    $returnName2 = "ListOfCountryNamesByNameResult";
+    $elementName2 = "tCountryCodeAndName";
+    $service2 = new WSDLService($url2, $methodName2, $returnName2, $elementName2);
+    if ($_GET['typeSend']=='soap')
+    {
+        $countryList = $service2->soapMethod();
+    }else
+    {
+        $countryList = $service2->curlMethod();
+    }
+}
 
-
-$url = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso";
-$methodName = "ListOfCountryNamesByName";
-$returnName = "ListOfCountryNamesByNameResult";
-//var_dump(soapMethod($url, $methodName, $returnName));
-var_dump(curlMethod($url, $methodName));
-//serviceSoap1();
-//serviceSoap2();
-//serviceSoap3();
-//serviceCurl1();
-
-//include_once TEMPLATE;
+include_once TEMPLATE;
 
 ?>
