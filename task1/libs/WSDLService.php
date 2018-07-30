@@ -21,15 +21,15 @@ class WSDLService
     {
         $client = new SoapClient($this->url.'?WSDL');
         $methodName = $this->methodName;
-        $result = $client->$methodName($this->params);
         $returnName = $this->returnName;
         $elementName = $this->elementName;
+        $result = $client->$methodName($this->params)->$retrunName;
         if ($elementName)
         {
-            return $result->$returnName->$elementName;
+            return $result->$elementName;
         }else
         {
-            return $result->$returnName;
+            return $result;
         }
     }
 
