@@ -8,7 +8,7 @@ class WSDLService
     private $elementName;
     private $params;
 
-    function __construct($url, $methodName, $returnName, $elementName, $params=[])
+    public function __construct($url, $methodName, $returnName, $elementName, $params=[])
     {
         $this->url = $url;
         $this->methodName = $methodName;
@@ -17,13 +17,20 @@ class WSDLService
         $this->params = $params;
     }
 
-    function soapMethod()
+    public function soapMethod()
     {
-        $client = new SoapClient($this->url.'?WSDL');
-        $methodName = $this->methodName;
-        $returnName = $this->returnName;
-        $elementName = $this->elementName;
-        $result = $client->$methodName($this->params)->$retrunName;
+        try
+        {
+            $client = new SoapClient($this->url.'?WSDL');
+            $methodName = $this->methodName;
+            $returnName = $this->returnName;
+            $elementName = $this->elementName;
+            $result = $client->$methodName($this->params)->$returnName;
+
+        }catch (SoapFault $e)
+        {
+            throw new Exception(ERR_SENDING."({$e->faultstring})");
+        }
         if ($elementName)
         {
             return $result->$elementName;
@@ -33,7 +40,7 @@ class WSDLService
         }
     }
 
-    function curlMethod()
+    public function curlMethod()
     {
         $ch = curl_init(); 
         curl_setopt($ch, CURLOPT_URL, $this->url.'/'.$this->methodName);
@@ -44,7 +51,12 @@ class WSDLService
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->params));
         }
         $result = curl_exec($ch); 
+        $err = curl_error($ch);
         curl_close($ch);  
+        if ($err)
+        {
+            throw new Exception(ERR_SENDING."($err)");
+        }
         return simplexml_load_string($result);
     }
 

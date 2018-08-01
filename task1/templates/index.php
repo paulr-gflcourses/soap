@@ -1,5 +1,14 @@
 <html>
-<head><title><?php echo TITLE ?></title></head>
+<head><title><?php echo TITLE ?></title>
+
+    <style type="text/css" media="all">
+        .errors{
+            color: #FF0000; 
+            font-size: 15px;
+        }
+    </style>
+
+</head>
 <body>
 
 <form action="index.php">
@@ -9,6 +18,11 @@
     </div>
 <p>
 <?php
+if ($errorCelsius)
+{
+    echo "<div class='errors'>$errorCelsius</div>";
+}
+
 echo "<input type='text' name='celsius' id='celsius' value='$celsius'/>";
 ?>
     <label for="celsius"> 'C </label>
@@ -34,6 +48,13 @@ echo "<input type='text' name='fahrenheit' id='fahrenheit' disabled value='$cels
         <p>Gets the country list with codes</p>
     </div>
     <p>
+<?php
+
+if ($errorCountries)
+{
+    echo "<div class='errors'>$errorCountries</div>";
+}
+?>
     <input type="hidden" name="countryList" value="true" />
     <label for="typeSend">Select type sending </label>
 <select name="typeSend" id ="typeSend">
