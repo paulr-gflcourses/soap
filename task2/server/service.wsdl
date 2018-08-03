@@ -21,7 +21,7 @@
                         minOccurs="1"
                         maxOccurs="1"/>
                     <xs:element
-                        name="brand"
+                        name="mark"
                         type="xs:string"
                         minOccurs="1"
                         maxOccurs="1"/>
