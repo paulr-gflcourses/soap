@@ -1,6 +1,8 @@
 <?php
 require_once 'config.php';
 require_once 'libs/SoapService.php';
+require_once 'libs/SQL.php';
+require_once 'libs/MySQL.php';
 
 
 if(array_key_exists('WSDL', $_GET))
