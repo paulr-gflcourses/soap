@@ -1,11 +1,11 @@
 CREATE TABLE Cars (
     id INT AUTO_INCREMENT,
-    brand VARCHAR(40),
+    mark VARCHAR(40),
     model VARCHAR(40),
     year YEAR(4),
-    engine_capacity FLOAT,
+    engine FLOAT,
     color VARCHAR(40),
-    max_speed INT,
+    maxspeed INT,
     price FLOAT,
     PRIMARY KEY (id)
 );
