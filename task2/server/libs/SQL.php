@@ -35,12 +35,14 @@ class SQL
 
     function select()
     {
+            echo "SQL: ".$this->sql;
         try
         {
             $res = $this->link->query($this->sql);
         }catch(Exception $e)
         {
-            throw new Exception("Error in query \n\"".$this->sql."\"\n: ".$e->getMessage());
+            $msg = "Error in query \n\"".$this->sql."\"\n: ".$e->getMessage();
+            throw new Exception($msg);
         }
         return $res;
     }
