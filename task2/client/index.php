@@ -24,18 +24,20 @@ echo '</pre><h2>Response:</h2> <pre>';
 var_dump($resp);*/
 //$res1 = $client->__getFunctions();
 /*var_dump($res1);*/
-$client = new CarClient();
 //$_GET['action'] = 'getCarList';
 
-if (isset($_GET['action'])) 
+if (isset($_POST['action'])) 
 {
-	if ($_GET['action'] == 'getCarList')
+    $client = new CarClient();
+	if ($_POST['action'] == 'getCarList')
 	{
         header('Content-Type: application/json');
 		echo $client->getCarList();
 	}
 }else
 {
+    print_r($_POST);
+    print_r($_GET);
     require_once TEMPLATE;
 }
 

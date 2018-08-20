@@ -35,7 +35,7 @@ class SQL
 
     function select()
     {
-            echo "SQL: ".$this->sql;
+        //echo "SQL: ".$this->sql;
         try
         {
             $res = $this->link->query($this->sql);

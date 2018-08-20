@@ -1,6 +1,6 @@
 <?php
 //require_once '/home/user12/public_html/soap/task2/server/config.php';
-//include('E:\eng\xampp\htdocs\my\courses\soap\task2\server\config.php');
+////include('E:\eng\xampp\htdocs\my\courses\soap\task2\server\config.php');
 //require_once 'SQL.php';
 //require_once 'MySQL.php';
 
@@ -13,6 +13,7 @@ class SoapService
         $mysql->setSql("SELECT id, mark, model FROM Cars");
         $result = $mysql->select();
         return $result->fetchAll(PDO::FETCH_OBJ);
+        //return (object)['id'=>0, 'mark'=>'none', 'model'=>'none'];
     }
 
     public function getById($param)
@@ -49,9 +50,9 @@ class SoapService
 }
 
 //$service = new SoapService();
-//$car = $service->getById(2);
-////$carList = $service->getCarList();
-//print_r($car);
-////print_r($carList);
+////$car = $service->getById((object)['id'=>2]);
+//$carList = $service->getCarList();
+////print_r($car);
+//print_r($carList);
 
 ?>

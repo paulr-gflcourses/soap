@@ -1,4 +1,7 @@
 <?php
+
+//require_once '/home/user12/public_html/soap/task2/client/config.php';
+
 class CarClient
 {
 	private $client;
@@ -6,8 +9,8 @@ class CarClient
 	public function __construct()
 	{
 		$this->client = new SoapClient(SERVER_URL.'?wsdl');
-		
 	}
+
     public function getCarList()
     {
 		$result = $this->client->getCarList();
@@ -31,6 +34,11 @@ class CarClient
        
 
     }
+
 }
+
+//$client = new CarClient();
+//$cars = $client->getCarList();
+//print_r($cars);
 
 ?>
