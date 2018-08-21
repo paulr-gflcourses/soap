@@ -29,13 +29,23 @@ var_dump($resp);*/
 
 if (isset($_POST['action'])) 
 {
+    header('Content-Type: application/json');
     $client = new CarClient();
-	if ($_POST['action'] == 'getCarList')
+        $action = $_POST['action'];
+
+	if ($action == 'getCarList')
 	{
-        header('Content-Type: application/json');
 		echo $client->getCarList();
-	}
-}else
+	}else if($action == 'searchCars')
+    {
+        $filter = $_POST['filter'];
+		echo $client->CarFilter($filter);
+	}else if($action == 'getById')
+    {
+        $id = $_POST['id'];
+		echo $client->getById($id);
+    }
+}else 
 {
     header('Content-Type: text/html');
 

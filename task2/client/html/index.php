@@ -16,11 +16,16 @@
     <form name="carform" id="carform" action="javascript:void(0);">
         <div class="form-group ">
             <button type="submit" class="btn btn-success"
-                onclick="getCarList()">Get Cars list</button>
+                onclick="getCarList()">Get all cars list</button>
         </div>
+    </form>
+
+    <form name="filterform" id="filterform" action="javascript:void(0);">
         <div class="form-group row">
             <div class="col-lg-4">
                 <h3>Filter options</h3>
+                <button type="submit" class="btn btn-success"
+                    onclick="searchCars()">Search</button>
                 <div class="input-group">
                     <span class="input-group-addon">
                         Model
@@ -82,6 +87,13 @@
                     <span class="input-group-addon">$</span>
                 </div>
             </div>
+            
+    <div class="col-lg-7 detail" id="detail">
+        <h3>Details</h3>
+        <table class="table" id="details">
+        </table>
+    </div>
+
         </div>
     </form>
 
@@ -93,12 +105,14 @@
 
 </div>
 
-<script src="html/js/script.js"></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="html/js/bootstrap.min.js"></script>
+
+<script src="html/js/script.js"></script>
+
 <script charset="utf-8">
 function my(){
         //fillModelList();

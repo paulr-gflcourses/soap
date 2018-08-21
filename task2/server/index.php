@@ -15,8 +15,8 @@ if(array_key_exists('wsdl', $_GET))
 }
 else
 {
-    //$wsdlUrl='http://192.168.0.15/~user12/soap/task2/server/index.php?wsdl';
-    $wsdlUrl='http://127.0.0.1/my/courses/soap/task2/server/index.php?wsdl';
+    $wsdlUrl='http://192.168.0.15/~user12/soap/task2/server/index.php?wsdl';
+    //$wsdlUrl='http://127.0.0.1/my/courses/soap/task2/server/index.php?wsdl';
     $server = new SoapServer($wsdlUrl);
     $server->setClass("SoapService");
     $server->handle();

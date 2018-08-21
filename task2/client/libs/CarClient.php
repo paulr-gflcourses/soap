@@ -17,9 +17,18 @@ class CarClient
 		return json_encode($result);
     }
 
-    public function getById()
+    public function CarFilter($data)
     {
-       $id = $_POST['id'];
+        //$params =  ['year'=>2008,'mark'=>'Mercedes', 'model'=>'S-Class 550', 'engine'=>5.5, 
+            //'color'=>'black', 'maxspeed'=>220, 'price'=>40000];
+        $params =  ['year'=>$data['year'],'mark'=>$data['mark'], 'model'=>$data['model'], 'engine'=>$data['engine'], 
+            'color'=>$data['color'], 'maxspeed'=>$data['maxspeed'], 'price'=>$data['price']];
+        $result = $this->client->CarFilter($params);
+        return json_encode($result);
+    }
+
+    public function getById($id)
+    {
 	   $result = $this->client->getById(['id'=>$id]);
 	   return json_encode($result);
     }
@@ -29,16 +38,14 @@ class CarClient
 
     }
 
-    public function CarFilter($data)
-    {
-       
-
-    }
 
 }
 
 //$client = new CarClient();
-//$cars = $client->getCarList();
-//print_r($cars);
+//$car = $client->getById(3);
+//print_r($car);
+//////$cars = $client->getCarList();
+////$cars = $client->CarFilter(11);
+////print_r($cars);
 
 ?>

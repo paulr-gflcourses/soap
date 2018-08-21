@@ -20,15 +20,16 @@ class SoapService
     {
         $mysql = new MySQL();
         $id = $param->id;
-        $mysql->setSql("SELECT id, imark, model, engine, color, maxspeed, price FROM Cars WHERE id=$id");
+        $mysql->setSql("SELECT id, mark, model, engine, color, maxspeed, price FROM Cars WHERE id=$id");
         try
         {
             $result = $mysql->select();
             return $result->fetch(PDO::FETCH_OBJ);
         }catch(Exception $e)
         {
+            echo $e->getMessage();
             $car = ['id'=>1, 'mark'=>'BMW \n'.$e->getMessage(), 'model'=>'X3', 'year'=>1991, 'engine'=>3.3, 'color'=>'black', 'maxspeed'=>200, 'price'=>3000.0];       
-            $car = ['id'=>0, 'mark'=>'', 'model'=>'', 'year'=>0, 'engine'=>0, 'color'=>'', 'maxspeed'=>0, 'price'=>0];       
+            //$car = ['id'=>0, 'mark'=>'', 'model'=>'', 'year'=>0, 'engine'=>0, 'color'=>'', 'maxspeed'=>0, 'price'=>0];       
             return (object) $car;
             //return (object) ['id'=>0];
         }
@@ -42,10 +43,37 @@ class SoapService
 
     public function CarFilter($data)
     {
+        $sql="SELECT id, mark, model FROM Cars";
+        $sql.=" WHERE year=".$data->year;
+        if ($data->mark)
+        {
+            $sql.=" AND mark='$data->mark'";
+        }
+        if ($data->model)
+        {
+            $sql.=" AND model='$data->model'";
+        }
+        if ($data->engine)
+        {
+            $sql.=" AND engine=$data->engine";
+        }
+        if ($data->color)
+        {
+            $sql.=" AND color='$data->color'";
+        }
+        if ($data->maxspeed)
+        {
+            $sql.=" AND maxspeed=$data->maxspeed";
+        }
+        if ($data->price)
+        {
+            $sql.=" AND price=$data->price";
+        }
         $mysql = new MySQL();
-        var_dump($data);
-        $mysql->setSql("SELECT id, mark, model FROM Cars");
 
+        $mysql->setSql($sql);
+        $result = $mysql->select();
+        return $result->fetchAll(PDO::FETCH_OBJ);
     }
 }
 
