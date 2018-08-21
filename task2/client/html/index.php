@@ -13,7 +13,7 @@
 <div class="container">
     <h1>Car Service</h1>
 
-    <form id="car-form" action="javascript:void(0);">
+    <form name="carform" id="carform" action="javascript:void(0);">
         <div class="form-group ">
             <button type="submit" class="btn btn-success"
                 onclick="getCarList()">Get Cars list</button>
@@ -23,10 +23,9 @@
                 <h3>Filter options</h3>
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="filter" value="model"/>
                         Model
                     </span>
-                    <select class="form-control" id="model">
+                    <select class="form-control" name="model" id="model">
                         <option value="">-----Select model</option>
                         <option>BMW</option>
                         <option>Chevrolet</option>
@@ -35,7 +34,6 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon col">
-                        <input type="checkbox" name="filter" value="year"/>
                         Year
                     </span>
                     <input type="number" class="form-control"
@@ -44,8 +42,6 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="filter"
-                        value="engine"/>
                         Engine
                     </span>
                     <input type="number" class="form-control"
@@ -55,11 +51,9 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="filter"
-                        value="color"/>
                         Color
                     </span>
-                    <select class="form-control" id="color">
+                    <select class="form-control" name="color" id="color">
                         <option value="">-----Select color</option>
                         <option>black</option>
                         <option>white</option>
@@ -73,8 +67,6 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="filter"
-                        value="maxspeed"/>
                         Max speed
                     </span>
                     <input type="number" class="form-control col-lg-3"
@@ -83,8 +75,6 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="filter"
-                        value="price"/>
                         Price
                     </span>
                     <input type="number" class="form-control col-lg-3"
@@ -107,10 +97,11 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="html/js/bootstrap.min.js"></script>
 <script charset="utf-8">
 function my(){
-        fillModelList();
+        //fillModelList();
     }
     window.onload = my
 </script>
