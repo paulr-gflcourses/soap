@@ -1,5 +1,4 @@
 <?php
-
 //require_once '/home/user12/public_html/soap/task2/client/config.php';
 
 class CarClient
@@ -35,7 +34,10 @@ class CarClient
 
     public function Order($order)
     {
-
+        $params=['idcar'=>$order['idcar'], 'firstname'=>$order['firstname'],
+            'lastname'=>$order['lastname'], 'payment'=>$order['payment']];
+        $result = $this->client->Order($params);
+        return json_encode($result);
     }
 
 

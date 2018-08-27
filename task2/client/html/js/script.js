@@ -1,3 +1,5 @@
+//const url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
+const url=`http://127.0.0.1/my/courses/soap/task2/client/index.php`;
 
 function checkStorage(){
     if (localStorage.length!=0){
@@ -7,9 +9,7 @@ function checkStorage(){
 }
 
 function getCarList(){
-    url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
-    //url=`http://127.0.0.1/my/courses/soap/task2/client/index.php`;
-    var formData = {
+    let formData = {
         'action': 'getCarList'
     };
     $.post(url, formData, function( data ) {
@@ -18,9 +18,7 @@ function getCarList(){
 }
 
 function getDetails(id){
-    url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
-    //url=`http://127.0.0.1/my/courses/soap/task2/client/index.php`;
-    var formData = {
+    let formData = {
         'action': 'getById',
         'id': id
     };
@@ -30,10 +28,12 @@ function getDetails(id){
 }
 
 function searchCars(){
-    url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
-    //url=`http://127.0.0.1/my/courses/soap/task2/client/index.php`;
-    var formData = {
-        'filter': {'model': $('select[name=model]').val(),
+    let year = $('input[name=year]').val();
+    if (year){
+
+    let formData = {
+        'filter': {'mark': $('select[name=mark]').val(),
+            'model'              : $('input[name=model]').val(),
             'year'              : $('input[name=year]').val(),
             'engine'             : $('input[name=engine]').val(),
             'color': $('select[name=color]').val(),
@@ -45,12 +45,39 @@ function searchCars(){
     $.post(url, formData, function( data ) {
         showOnTable(data)
     }, "json");
+    }else{
+        alert('Enter the year!');
+    }
+}
+
+function order(){
+    let formData = {
+        'action': 'order',
+        'orderData': {
+            'idcar': $('input[name=id]').val(),
+            'firstname': $('input[name=name]').val(),
+            'lastname': $('input[name=surname]').val(),
+            'payment': $('select[name=paytype]').val(),
+        }
+    };
+    $.post(url, formData, function( data ) {
+        let div = document.getElementById("results");
+        div.innerHTML = "Successfully ordered! "+data;
+    }, "html");
+}
+
+function getOrderForm(id){
+    let formData = {
+        'action': 'getOrderForm',
+        'id': id
+    };
+    $.post(url, formData, function( data ) {
+        let div = document.getElementById("results");
+        div.innerHTML = data;
+    }, "html");
 }
 
 function fillModelList(){
-    //url=`http://127.0.0.1/my/courses/soap/task2/client/index.php?action=getCarList`;
-    //url=`http://192.168.0.15/~user12/soap/task2/client/index.php?action=getCarList`;
-    url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -59,7 +86,7 @@ function fillModelList(){
         },
         body: JSON.stringify({a: 1, action: 'getCarList'})
     })
-    .then(response => response.json())
+        .then(response => response.json())
         .then(json=>{
             localStorage.setItem('entry', JSON.stringify(json));
             showOnModelList(json);
@@ -67,12 +94,11 @@ function fillModelList(){
 }
 
 function showOnTable(entry){
-    let t = document.getElementById("table");
+    let t = document.getElementById("results");
     //let table=objToTable(entry);
     //t.innerHTML=objToTable(entry);
-
     let table=carsListToTable(entry);
-    t.innerHTML=carsListToTable(entry);
+    t.innerHTML=table;
 }
 
 function showOnDetails(entry){
@@ -93,13 +119,13 @@ function showOnModelList(cars){
     t.innerHTML=htmlVal;
 }
 
+
 function carsListToTable(cars){
-    let table='';
+    let table='<table class="table" id="table">';
     if (cars.length){
         table+='<tr>';
-        table+='<th>id</th> <th>mark</th> <th>model</th> <th></th>';
+        table+='<th>id</th> <th>mark</th> <th>model</th> <th></th> <th></th>';
         table+='</tr>';
-
         for(let i in cars){
             let id=cars[i]['id'];
             table+='<tr>';
@@ -108,15 +134,19 @@ function carsListToTable(cars){
                 '<button type="submit" class="btn btn-primary"'+
                 'onclick="getDetails('+id+')">Details</button>'+
                 '</td>';
-
+            table+='<td>'+
+                '<button type="submit" class="btn btn-danger"'+
+                'onclick="getOrderForm('+id+')">Order</button>'+
+                '</td>';
             table+='</tr>';
         }
+        table+='</table>';
     }
     return table;
 }
 
 function objToTable(o){
-    let table='';
+    let table='<table class="table" id="table">';
     if (o.length){
         table+='<tr>';
         for(key in o[0]){
@@ -143,6 +173,7 @@ function objToTable(o){
         }
         table+='</tr>';
     }
+    table+='</table>';
     return table;
 }
 

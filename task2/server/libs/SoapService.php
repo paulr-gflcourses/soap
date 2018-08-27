@@ -1,12 +1,12 @@
 <?php
 //require_once '/home/user12/public_html/soap/task2/server/config.php';
-////include('E:\eng\xampp\htdocs\my\courses\soap\task2\server\config.php');
+
+//include('E:\eng\xampp\htdocs\my\courses\soap\task2\server\config.php');
 //require_once 'SQL.php';
 //require_once 'MySQL.php';
 
 class SoapService
 {
-
     public function getCarList()
     {
         $mysql = new MySQL();
@@ -20,7 +20,7 @@ class SoapService
     {
         $mysql = new MySQL();
         $id = $param->id;
-        $mysql->setSql("SELECT id, mark, model, engine, color, maxspeed, price FROM Cars WHERE id=$id");
+        $mysql->setSql("SELECT id, mark, model, year, engine, color, maxspeed, price FROM Cars WHERE id=$id");
         try
         {
             $result = $mysql->select();
@@ -38,7 +38,15 @@ class SoapService
 
     public function Order($order)
     {
-
+        $idcar = $order->idcar;
+        $type_pay = $order->payment;
+        $cust_name = $order->firstname;
+        $cust_surname = $order->lastname;
+        $mysql = new MySQL();
+        $mysql->setSql("INSERT INTO orders(id, idcar, type_pay, cust_name, cust_surname) 
+            VALUES(0, $idcar, $type_pay, $cust_name, $cust_surname)");
+        $mysql->insert();
+        return (object) ['id'=>$idcar];
     }
 
     public function CarFilter($data)
@@ -78,9 +86,13 @@ class SoapService
 }
 
 //$service = new SoapService();
+//$order = (object) ['idcar'=>3, 'payment'=>'cash', 'firstname'=>'Paul', 'lastname'=>'R.'];
+//$service->Order($order);
+
 ////$car = $service->getById((object)['id'=>2]);
 //$carList = $service->getCarList();
 ////print_r($car);
 //print_r($carList);
+
 
 ?>
