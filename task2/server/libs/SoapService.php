@@ -43,9 +43,12 @@ class SoapService
         $cust_name = $order->firstname;
         $cust_surname = $order->lastname;
         $mysql = new MySQL();
-        $mysql->setSql("INSERT INTO orders(id, idcar, type_pay, cust_name, cust_surname) 
-            VALUES(0, $idcar, $type_pay, $cust_name, $cust_surname)");
-        $mysql->insert();
+        $sql = "INSERT INTO orders(id, idcar, type_pay, cust_name, cust_surname) 
+            VALUES(?, ?, ?, ?, ?)";
+        echo $sql;
+        $params = [0, $idcar, $type_pay, $cust_name, $cust_surname];
+        $mysql->setSql($sql);
+        $mysql->insert($params);
         return (object) ['id'=>$idcar];
     }
 

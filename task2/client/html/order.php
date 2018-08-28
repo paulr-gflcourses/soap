@@ -1,35 +1,24 @@
 <h2>Pre order car</h2>
-<form name="carorder" id="carorder" action="javascript:void(0);">
-    <div class="form-group ">
-        <input type="hidden" name="id" id="id" value='<?php echo $_POST['id']; ?>'/>
 
-        <div class="input-group">
-            <span class="input-group-addon">
-                Name
-            </span>
+<div class="row">
+
+    <form name="carorder" class="col-lg-5" id="carorder" action="javascript:void(0);">
+        <input type="hidden" name="id" id="id" value="<?php echo $_POST['id']; ?>"/>
+
+            <label for="name">Name</label>
             <input type="text" class="form-control"
-                               name="name" id="name" value="" placeholder="Enter your Name" />
-        </div>
+                               name="name" id="name" value="" placeholder="Enter your Name">
 
-        <div class="input-group">
-            <span class="input-group-addon">
-                Surname
-            </span>
+            <label for="surname">Surname</label>
             <input type="text" class="form-control"
-                               name="surname" id="surname" value="" placeholder="Enter your Surname" />
-        </div>
+                               name="surname" id="surname" value="" placeholder="Enter your Surname">
 
-        <div class="input-group">
-            <span class="input-group-addon">
-                Select type pay
-            </span>
+            <label for="paytype">Select type pay</label>
             <select class="form-control" name="paytype" id="paytype">
                 <option value="credit card">Credit card</option>
                 <option value="cash">Cash</option>
             </select>
-        </div>
-
         <button type="submit" class="btn btn-warning"
                               onclick="order()">Order</button>
-    </div>
-</form>
+    </form>
+</div>

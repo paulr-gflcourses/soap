@@ -97,7 +97,6 @@
                     </div>
 
                     <div class="col-lg-7 detail" id="detail">
-                        <h3>Details</h3>
                         <table class="table" id="details">
                         </table>
                     </div>

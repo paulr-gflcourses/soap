@@ -60,10 +60,11 @@ function order(){
             'payment': $('select[name=paytype]').val(),
         }
     };
-    $.post(url, formData, function( data ) {
+    $.post(url, formData, function(data) {
         let div = document.getElementById("results");
-        div.innerHTML = "Successfully ordered! "+data;
-    }, "html");
+        let id = data.id;
+        div.innerHTML = "<h3 class='text-success'>The car with id="+id+" is successfully ordered!</h3>";
+    }, "json");
 }
 
 function getOrderForm(id){
@@ -99,6 +100,9 @@ function showOnTable(entry){
     //t.innerHTML=objToTable(entry);
     let table=carsListToTable(entry);
     t.innerHTML=table;
+
+    let t2 = document.getElementById("details");
+    t2.innerHTML="";
 }
 
 function showOnDetails(entry){
@@ -107,7 +111,9 @@ function showOnDetails(entry){
     //t.innerHTML=objToTable(entry);
 
     let table=objToTable(entry);
-    t.innerHTML=table;
+    let html = "<h3>Car details</h3>"+table;
+    t.innerHTML = html;
+                        
 }
 
 function showOnModelList(cars){
@@ -123,18 +129,20 @@ function showOnModelList(cars){
 function carsListToTable(cars){
     let table='<table class="table" id="table">';
     if (cars.length){
-        table+='<tr>';
-        table+='<th>id</th> <th>mark</th> <th>model</th> <th></th> <th></th>';
+        table+='<tr class="row">';
+        table+='<th class="col-lg-1">id</th> <th class="col-lg-4">mark</th> '
+            +'<th class="col-lg-5">model</th> <th class="col-lg-1"></th> <th class="col-lg-1"></th>';
         table+='</tr>';
         for(let i in cars){
             let id=cars[i]['id'];
-            table+='<tr>';
-            table+='<td>'+id+'</td> <td>'+cars[i]['mark']+'</td> <td>'+cars[i]['model']+'</td>';
-            table+='<td>'+
+            table+='<tr class="row">';
+            table+='<td class="col-lg-1">'+id+'</td> <td class="col-lg-4">'
+                +cars[i]['mark']+'</td> <td class="col-lg-5">'+cars[i]['model']+'</td>';
+            table+='<td class="col-lg-1">'+
                 '<button type="submit" class="btn btn-primary"'+
                 'onclick="getDetails('+id+')">Details</button>'+
                 '</td>';
-            table+='<td>'+
+            table+='<td class="col-lg-1">'+
                 '<button type="submit" class="btn btn-danger"'+
                 'onclick="getOrderForm('+id+')">Order</button>'+
                 '</td>';

@@ -47,12 +47,9 @@ class SQL
         return $res;
     }
 
-    function insert()
+    function insert($params)
     {
-        if ($this->userid && $this->userdata)
-        {
-            $this->prepStmt(array($this->userid, $this->userdata));
-        }
+            $this->prepStmt($params);
     }
 
     function update()
