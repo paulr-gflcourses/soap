@@ -17,7 +17,7 @@ else
 {
     $server = new SoapServer(WSDL_URL);
     $server->setClass("SoapService");
-    $server->handle();
+        $server->handle();
 }
 
 ?>

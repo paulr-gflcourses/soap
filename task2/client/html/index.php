@@ -49,14 +49,14 @@
                                 <b>Year *</b>
                             </span>
                             <input type="number" class="form-control"
-                                                 name="year" id="year" value="" />
+                                                 name="year" min="0" id="year" value="" />
                             <span class="input-group-addon">year</span>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Engine
                             </span>
-                            <input type="number" class="form-control"
+                            <input type="number" step="0.1" min="0" class="form-control"
                                                  name="engine" id="engine" value="" />
                             <span class="input-group-addon">L</span>
                         </div>
@@ -81,7 +81,7 @@
                             <span class="input-group-addon">
                                 Max speed
                             </span>
-                            <input type="number" class="form-control col-lg-3"
+                            <input type="number" min="0" class="form-control col-lg-3"
                                                  name="maxspeed" id="maxspeed" value="" />
                             <span class="input-group-addon">km/h</span>
                         </div>
@@ -89,7 +89,7 @@
                             <span class="input-group-addon">
                                 Price
                             </span>
-                            <input type="number" class="form-control col-lg-3"
+                            <input type="number" min="0" class="form-control col-lg-3"
                                                  name="price" id="price" value="" />
                             <span class="input-group-addon">$</span>
                         </div>

@@ -29,25 +29,33 @@ function getDetails(id){
 
 function searchCars(){
     let year = $('input[name=year]').val();
-    if (year){
+    //if (year){
 
-    let formData = {
-        'filter': {'mark': $('select[name=mark]').val(),
-            'model'              : $('input[name=model]').val(),
-            'year'              : $('input[name=year]').val(),
-            'engine'             : $('input[name=engine]').val(),
-            'color': $('select[name=color]').val(),
-            'maxspeed'    : $('input[name=maxspeed]').val(),
-            'price'    : $('input[name=price]').val(),
-        },
-        'action': 'searchCars'
-    };
-    $.post(url, formData, function( data ) {
-        showOnTable(data)
-    }, "json");
-    }else{
-        alert('Enter the year!');
-    }
+        let formData = {
+            'filter': {'mark': $('select[name=mark]').val(),
+                'model'              : $('input[name=model]').val(),
+                'year'              : $('input[name=year]').val(),
+                'engine'             : $('input[name=engine]').val(),
+                'color': $('select[name=color]').val(),
+                'maxspeed'    : $('input[name=maxspeed]').val(),
+                'price'    : $('input[name=price]').val(),
+            },
+            'action': 'searchCars'
+        };
+        $.post(url, formData, function( data ) {
+            if (data['errors']){
+                let t = document.getElementById("results");
+                t.innerHTML = '<h3 class="text-danger">Error: '+data.errors+'</h3>';
+
+            }else
+            {
+                showOnTable(data);
+            }
+
+        }, "json");
+    //}else{
+        //alert('Enter the year!');
+    //}
 }
 
 function order(){
@@ -113,7 +121,7 @@ function showOnDetails(entry){
     let table=objToTable(entry);
     let html = "<h3>Car details</h3>"+table;
     t.innerHTML = html;
-                        
+
 }
 
 function showOnModelList(cars){

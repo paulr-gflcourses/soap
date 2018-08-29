@@ -54,37 +54,81 @@ class SoapService
 
     public function CarFilter($data)
     {
-        $sql="SELECT id, mark, model FROM Cars";
-        $sql.=" WHERE year=".$data->year;
-        if ($data->mark)
-        {
-            $sql.=" AND mark='$data->mark'";
-        }
-        if ($data->model)
-        {
-            $sql.=" AND model='$data->model'";
-        }
-        if ($data->engine)
-        {
-            $sql.=" AND engine=$data->engine";
-        }
-        if ($data->color)
-        {
-            $sql.=" AND color='$data->color'";
-        }
-        if ($data->maxspeed)
-        {
-            $sql.=" AND maxspeed=$data->maxspeed";
-        }
-        if ($data->price)
-        {
-            $sql.=" AND price=$data->price";
-        }
-        $mysql = new MySQL();
+        $year = $data->year;
+        $mark = $data->mark;
+        $model = $data->model;
+        $engine = $data->engine;
+        $color = $data->color;
+        $maxspeed = $data->maxspeed;
+        $price = $data->price;
 
-        $mysql->setSql($sql);
-        $result = $mysql->select();
-        return $result->fetchAll(PDO::FETCH_OBJ);
+        if (!$year || !is_integer($year) || $year<1930 || $year>2018)
+        {
+            throw new SoapFault("Server", "Year is not valid!"); 
+        }
+        $sql="SELECT id, mark, model FROM Cars";
+        $sql.=" WHERE year=$year";
+
+        if ($mark)
+        {
+            if (!is_string($mark))
+            {
+                throw new SoapFault("Server", "Mark is not valid!"); 
+            }
+            $sql.=" AND mark='$mark'";
+        }
+        if ($model)
+        {
+            if (!is_string($model))
+            {
+                throw new SoapFault("Server", "Model is not valid!"); 
+            }
+            $sql.=" AND model='$model'";
+        }
+        if ($engine)
+        {
+            if (!is_numeric($engine) || $engine<0)
+            {
+                throw new SoapFault("Server", "Engine is not valid!"); 
+            }
+            $sql.=" AND engine=$engine";
+        }
+        if ($color)
+        {
+            if (!is_string($color))
+            {
+                throw new SoapFault("Server", "Color is not valid!"); 
+            }
+            $sql.=" AND color='$color'";
+        }
+        if ($maxspeed)
+        {
+            if (!is_integer($maxspeed) || $maxspeed<0)
+            {
+                throw new SoapFault("Server", "Max speed is not valid!"); 
+            }
+            $sql.=" AND maxspeed=$maxspeed";
+        }
+        if ($price)
+        {
+            if (!is_numeric($price) || $price<0)
+            {
+                throw new SoapFault("Server", "Price is not valid!"); 
+            }
+            $sql.=" AND price=$price";
+        }
+
+        try
+        {
+            $mysql = new MySQL();
+            $mysql->setSql($sql);
+            $result = $mysql->select();
+            return $result->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $e)
+        {
+            throw new SoapFault("Server", $e->getMessage()); 
+        }
+        return (object)[];
     }
 }
 
