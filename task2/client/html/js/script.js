@@ -1,5 +1,5 @@
-//const url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
-const url=`http://127.0.0.1/my/courses/soap/task2/client/index.php`;
+const url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
+//const url=`http://127.0.0.1/my/courses/soap/task2/client/index.php`;
 
 function checkStorage(){
     if (localStorage.length!=0){
@@ -31,30 +31,30 @@ function searchCars(){
     let year = $('input[name=year]').val();
     //if (year){
 
-        let formData = {
-            'filter': {'mark': $('select[name=mark]').val(),
-                'model'              : $('input[name=model]').val(),
-                'year'              : $('input[name=year]').val(),
-                'engine'             : $('input[name=engine]').val(),
-                'color': $('select[name=color]').val(),
-                'maxspeed'    : $('input[name=maxspeed]').val(),
-                'price'    : $('input[name=price]').val(),
-            },
-            'action': 'searchCars'
-        };
-        $.post(url, formData, function( data ) {
-            if (data['errors']){
-                let t = document.getElementById("results");
-                t.innerHTML = '<h3 class="text-danger">Error: '+data.errors+'</h3>';
+    let formData = {
+        'filter': {'mark': $('select[name=mark]').val(),
+            'model'              : $('input[name=model]').val(),
+            'year'              : $('input[name=year]').val(),
+            'engine'             : $('input[name=engine]').val(),
+            'color': $('select[name=color]').val(),
+            'maxspeed'    : $('input[name=maxspeed]').val(),
+            'price'    : $('input[name=price]').val(),
+        },
+        'action': 'searchCars'
+    };
+    $.post(url, formData, function( data ) {
+        if (data['errors']){
+            let t = document.getElementById("results");
+            t.innerHTML = '<h3 class="text-danger">Error: '+data.errors+'</h3>';
 
-            }else
-            {
-                showOnTable(data);
-            }
+        }else
+        {
+            showOnTable(data);
+        }
 
-        }, "json");
+    }, "json");
     //}else{
-        //alert('Enter the year!');
+    //alert('Enter the year!');
     //}
 }
 
@@ -69,10 +69,18 @@ function order(){
         }
     };
     $.post(url, formData, function(data) {
-        let div = document.getElementById("results");
-        let id = data.id;
-        div.innerHTML = "<h3 class='text-success'>The car with id="+id+" is successfully ordered!</h3>";
+        if (data['errors']){
+            let t = document.getElementById("results");
+            t.innerHTML = '<h3 class="text-danger">Error: '+data.errors+'</h3>';
+        }else
+        {
+            let div = document.getElementById("results");
+            let id = data.id;
+            div.innerHTML = "<h3 class='text-success'>The car with id="+id+" is successfully ordered!</h3>";
+        }
     }, "json");
+
+
 }
 
 function getOrderForm(id){
@@ -95,7 +103,7 @@ function fillModelList(){
         },
         body: JSON.stringify({a: 1, action: 'getCarList'})
     })
-        .then(response => response.json())
+    .then(response => response.json())
         .then(json=>{
             localStorage.setItem('entry', JSON.stringify(json));
             showOnModelList(json);

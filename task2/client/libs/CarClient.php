@@ -48,9 +48,15 @@ class CarClient
 
     public function Order($order)
     {
-        $params=['idcar'=>$order['idcar'], 'firstname'=>$order['firstname'],
-            'lastname'=>$order['lastname'], 'payment'=>$order['payment']];
-        $result = $this->client->Order($params);
+        try
+        {
+            $params=['idcar'=>$order['idcar'], 'firstname'=>$order['firstname'],
+                'lastname'=>$order['lastname'], 'payment'=>$order['payment']];
+            $result = $this->client->Order($params);
+        }catch(Exception $e)
+        {
+            return json_encode(['errors'=>$e->getMessage()]);
+        }
         return json_encode($result);
     }
 

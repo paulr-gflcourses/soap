@@ -38,17 +38,34 @@ class SoapService
 
     public function Order($order)
     {
-        $idcar = $order->idcar;
-        $type_pay = $order->payment;
-        $cust_name = $order->firstname;
-        $cust_surname = $order->lastname;
-        $mysql = new MySQL();
-        $sql = "INSERT INTO orders(id, idcar, type_pay, cust_name, cust_surname) 
-            VALUES(?, ?, ?, ?, ?)";
-        echo $sql;
-        $params = [0, $idcar, $type_pay, $cust_name, $cust_surname];
-        $mysql->setSql($sql);
-        $mysql->insert($params);
+        try
+        {
+            $idcar = $order->idcar;
+            $type_pay = $order->payment;
+            $cust_name = $order->firstname;
+            $cust_surname = $order->lastname;
+            
+            if (!$cust_name)
+            {
+                throw new SoapFault("Server", "Customer name is empty!");
+            }
+            if (!$cust_surname)
+            {
+                throw new SoapFault("Server", "Customer surnname is empty!");
+            }
+
+            $mysql = new MySQL();
+            //$sql = "INSERT INTO orders(id, idcar, type_pay, cust_name, cust_surname) 
+            //VALUES(?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO Orders(id, idcar, type_pay, cust_name, cust_surname) 
+                VALUES(?, ?, ?, ?, ?)";
+            $params = [0, $idcar, $type_pay, $cust_name, $cust_surname];
+            $mysql->setSql($sql);
+            $mysql->insert($params);
+        }catch(Exception $e)
+        {
+            throw new SoapFault("Server", $e->getMessage()); 
+        }
         return (object) ['id'=>$idcar];
     }
 
