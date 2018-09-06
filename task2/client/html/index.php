@@ -11,7 +11,7 @@
     <body>
 
         <div class="container">
-            <h1>Car Service</h1>
+            <h1>Car Service<small> (SOAP) </small></h1>
 
             <form name="carform" id="carform" action="javascript:void(0);">
                 <div class="form-group ">
@@ -32,9 +32,15 @@
                             </span>
                             <select class="form-control" name="mark" id="mark">
                                 <option value="">-----Select mark</option>
+                                <option>Audi</option>
                                 <option>BMW</option>
                                 <option>Chevrolet</option>
+                                <option>Toyota</option>
+                                <option>Mercedes</option>
                                 <option>Nissan</option>
+                                <option>Peugeot</option>
+                                <option>Renault</option>
+
                             </select>
                         </div>
                         <div class="input-group">
@@ -42,7 +48,7 @@
                                 Model
                             </span>
                             <input type="text" class="form-control"
-                                                 name="model" id="model" value="" />
+                                               name="model" id="model" value="" />
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon col">
@@ -57,7 +63,7 @@
                                 Engine
                             </span>
                             <input type="number" step="0.1" min="0" class="form-control"
-                                                 name="engine" id="engine" value="" />
+                                                                    name="engine" id="engine" value="" />
                             <span class="input-group-addon">L</span>
                         </div>
 
@@ -82,7 +88,7 @@
                                 Max speed
                             </span>
                             <input type="number" min="0" class="form-control col-lg-3"
-                                                 name="maxspeed" id="maxspeed" value="" />
+                                                         name="maxspeed" id="maxspeed" value="" />
                             <span class="input-group-addon">km/h</span>
                         </div>
                         <div class="input-group">
@@ -90,7 +96,7 @@
                                 Price
                             </span>
                             <input type="number" min="0" class="form-control col-lg-3"
-                                                 name="price" id="price" value="" />
+                                                         name="price" id="price" value="" />
                             <span class="input-group-addon">$</span>
                         </div>
                         <span class="help-block">* Year field is required</span>
@@ -120,12 +126,6 @@
 
         <script src="html/js/script.js"></script>
 
-        <script charset="utf-8">
-            function my(){
-    //fillModelList();
-}
-window.onload = my
-        </script>
 
     </body>
 </html>

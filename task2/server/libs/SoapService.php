@@ -1,62 +1,63 @@
 <?php
-//require_once '/home/user12/public_html/soap/task2/server/config.php';
-
-//include('E:\eng\xampp\htdocs\my\courses\soap\task2\server\config.php');
-//require_once 'SQL.php';
-//require_once 'MySQL.php';
-
 class SoapService
 {
     public function getCarList()
     {
-        $mysql = new MySQL();
-        $mysql->setSql("SELECT id, mark, model FROM Cars");
-        $result = $mysql->select();
+        try
+        {
+            $mysql = new MySQL();
+            $mysql->setSql("SELECT id, mark, model FROM Cars");
+            $result = $mysql->select();
+        }catch(Exception $e)
+        {
+            throw new SoapFault("Server", $e->getMessage());
+        }
         return $result->fetchAll(PDO::FETCH_OBJ);
-        //return (object)['id'=>0, 'mark'=>'none', 'model'=>'none'];
     }
 
     public function getById($param)
     {
-        $mysql = new MySQL();
         $id = $param->id;
-        $mysql->setSql("SELECT id, mark, model, year, engine, color, maxspeed, price FROM Cars WHERE id=$id");
+        if ( !$id || !is_numeric($id) || $id<0)
+        {
+            throw new SoapFault("Server", "Car id is ivalid!");
+        }
         try
         {
+            $mysql = new MySQL();
+            $mysql->setSql("SELECT id, mark, model, year, engine, color, maxspeed, price FROM Cars WHERE id=$id");
             $result = $mysql->select();
-            return $result->fetch(PDO::FETCH_OBJ);
         }catch(Exception $e)
         {
-            echo $e->getMessage();
-            $car = ['id'=>1, 'mark'=>'BMW \n'.$e->getMessage(), 'model'=>'X3', 'year'=>1991, 'engine'=>3.3, 'color'=>'black', 'maxspeed'=>200, 'price'=>3000.0];       
-            //$car = ['id'=>0, 'mark'=>'', 'model'=>'', 'year'=>0, 'engine'=>0, 'color'=>'', 'maxspeed'=>0, 'price'=>0];       
-            return (object) $car;
-            //return (object) ['id'=>0];
+            throw new SoapFault("Server", $e->getMessage());
         }
-        return (object) [];
+        return $result->fetch(PDO::FETCH_OBJ);
     }
 
     public function Order($order)
     {
+        $idcar = $order->idcar;
+        $type_pay = $order->payment;
+        $cust_name = $order->firstname;
+        $cust_surname = $order->lastname;
+        if ( !$idcar || !is_numeric($idcar) || $idcar<0)
+        {
+            throw new SoapFault("Server", "Car id is ivalid!");
+        }
+        if ($type_pay!="cash" && $type_pay!="credit card"){
+            throw new SoapFault("Server", "Payment type is ivalid!");
+        }
+        if (!$cust_name)
+        {
+            throw new SoapFault("Server", "Customer name is empty!");
+        }
+        if (!$cust_surname)
+        {
+            throw new SoapFault("Server", "Customer surnname is empty!");
+        }
         try
         {
-            $idcar = $order->idcar;
-            $type_pay = $order->payment;
-            $cust_name = $order->firstname;
-            $cust_surname = $order->lastname;
-            
-            if (!$cust_name)
-            {
-                throw new SoapFault("Server", "Customer name is empty!");
-            }
-            if (!$cust_surname)
-            {
-                throw new SoapFault("Server", "Customer surnname is empty!");
-            }
-
             $mysql = new MySQL();
-            //$sql = "INSERT INTO orders(id, idcar, type_pay, cust_name, cust_surname) 
-            //VALUES(?, ?, ?, ?, ?)";
             $sql = "INSERT INTO Orders(id, idcar, type_pay, cust_name, cust_surname) 
                 VALUES(?, ?, ?, ?, ?)";
             $params = [0, $idcar, $type_pay, $cust_name, $cust_surname];
@@ -134,29 +135,19 @@ class SoapService
             }
             $sql.=" AND price=$price";
         }
-
         try
         {
             $mysql = new MySQL();
             $mysql->setSql($sql);
             $result = $mysql->select();
-            return $result->fetchAll(PDO::FETCH_OBJ);
+
         }catch(Exception $e)
         {
             throw new SoapFault("Server", $e->getMessage()); 
         }
-        return (object)[];
+        return $result->fetchAll(PDO::FETCH_OBJ);
     }
 }
-
-//$service = new SoapService();
-//$order = (object) ['idcar'=>3, 'payment'=>'cash', 'firstname'=>'Paul', 'lastname'=>'R.'];
-//$service->Order($order);
-
-////$car = $service->getById((object)['id'=>2]);
-//$carList = $service->getCarList();
-////print_r($car);
-//print_r($carList);
 
 
 ?>

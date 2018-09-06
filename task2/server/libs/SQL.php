@@ -3,9 +3,6 @@ class SQL
 {
 
     private $link;
-    private $table;
-    private $userid;
-    private $userdata;
     private $sql;
 
     private $dsn;
@@ -14,7 +11,6 @@ class SQL
 
     function __construct()
     {
-        //$this->table = $table;
         $this->connect();    
     }
 
@@ -35,7 +31,6 @@ class SQL
 
     function select()
     {
-        //echo "SQL: ".$this->sql;
         try
         {
             $res = $this->link->query($this->sql);
@@ -49,7 +44,7 @@ class SQL
 
     function insert($params)
     {
-            $this->prepStmt($params);
+        $this->prepStmt($params);
     }
 
     function update()
@@ -95,40 +90,6 @@ class SQL
         }
     }
 
-    function setUserId($userid)
-    {
-        if ($this->validString($userid))
-        {
-            $this->userid = $userid;
-        }
-        else
-        {
-            throw new Exception('userid is not valid!');
-        }
-    }
-
-    function getUserId()
-    {
-        return $this->userid;
-    }
-
-    function setUserData($userdata)
-    {
-        if ($this->validString($userdata))
-        {
-            $this->userdata = $userdata;
-        }
-        else
-        {
-            throw new Exception('userdata is not valid!');
-        }
-    }
-
-    function getUserData()
-    {
-        return $this->userdata;
-    }
-
 
     function setSql($sql)
     {
@@ -150,18 +111,6 @@ class SQL
         return $this->link;
     }
 
-    function setTable($table)
-    {
-        if ($table && is_string($table))
-        {
-            $this->table = $table;
-        }
-    }
-
-    function getTable()
-    {
-        return $this->table;
-    }
 
     function setUsername($username)
     {
