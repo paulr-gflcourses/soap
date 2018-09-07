@@ -10,7 +10,7 @@ class SoapService
             $result = $mysql->select();
         }catch(Exception $e)
         {
-            throw new SoapFault("Server", $e->getMessage());
+            throw new SoapFault("Server", $e->getMessage() );
         }
         return $result->fetchAll(PDO::FETCH_OBJ);
     }
@@ -20,7 +20,7 @@ class SoapService
         $id = $param->id;
         if ( !$id || !is_numeric($id) || $id<0)
         {
-            throw new SoapFault("Server", "Car id is ivalid!");
+            throw new SoapFault("Server", ERR_CAR_ID_INVALID);
         }
         try
         {
@@ -42,18 +42,18 @@ class SoapService
         $cust_surname = $order->lastname;
         if ( !$idcar || !is_numeric($idcar) || $idcar<0)
         {
-            throw new SoapFault("Server", "Car id is ivalid!");
+            throw new SoapFault("Server",ERR_CAR_ID_INVALID);
         }
         if ($type_pay!="cash" && $type_pay!="credit card"){
-            throw new SoapFault("Server", "Payment type is ivalid!");
+            throw new SoapFault("Server", ERR_PAYMENT_TYPE_INVALID);
         }
         if (!$cust_name)
         {
-            throw new SoapFault("Server", "Customer name is empty!");
+            throw new SoapFault("Server", ERR_CUSTOMER_NAME_EMPTY);
         }
         if (!$cust_surname)
         {
-            throw new SoapFault("Server", "Customer surnname is empty!");
+            throw new SoapFault("Server", ERR_CUSTOMER_SURNAME_EMPTY);
         }
         try
         {
@@ -79,10 +79,11 @@ class SoapService
         $color = $data->color;
         $maxspeed = $data->maxspeed;
         $price = $data->price;
-
+        
+        var_dump($data);
         if (!$year || !is_integer($year) || $year<1930 || $year>2018)
         {
-            throw new SoapFault("Server", "Year is not valid!"); 
+            throw new SoapFault("Server", ERR_YEAR_INVALID); 
         }
         $sql="SELECT id, mark, model FROM Cars";
         $sql.=" WHERE year=$year";
@@ -91,7 +92,7 @@ class SoapService
         {
             if (!is_string($mark))
             {
-                throw new SoapFault("Server", "Mark is not valid!"); 
+                throw new SoapFault("Server", ERR_MARK_INVALID); 
             }
             $sql.=" AND mark='$mark'";
         }
@@ -99,7 +100,7 @@ class SoapService
         {
             if (!is_string($model))
             {
-                throw new SoapFault("Server", "Model is not valid!"); 
+                throw new SoapFault("Server", ERR_MODEL_INVALID); 
             }
             $sql.=" AND model='$model'";
         }
@@ -107,7 +108,7 @@ class SoapService
         {
             if (!is_numeric($engine) || $engine<0)
             {
-                throw new SoapFault("Server", "Engine is not valid!"); 
+                throw new SoapFault("Server", ERR_ENGINE_INVALID); 
             }
             $sql.=" AND engine=$engine";
         }
@@ -115,7 +116,7 @@ class SoapService
         {
             if (!is_string($color))
             {
-                throw new SoapFault("Server", "Color is not valid!"); 
+                throw new SoapFault("Server", ERR_COLOR_INVALID); 
             }
             $sql.=" AND color='$color'";
         }
@@ -123,7 +124,7 @@ class SoapService
         {
             if (!is_integer($maxspeed) || $maxspeed<0)
             {
-                throw new SoapFault("Server", "Max speed is not valid!"); 
+                throw new SoapFault("Server", ERR_MAXSPEED_INVALID); 
             }
             $sql.=" AND maxspeed=$maxspeed";
         }
@@ -131,7 +132,7 @@ class SoapService
         {
             if (!is_numeric($price) || $price<0)
             {
-                throw new SoapFault("Server", "Price is not valid!"); 
+                throw new SoapFault("Server", ERR_PRICE_INVALID); 
             }
             $sql.=" AND price=$price";
         }
