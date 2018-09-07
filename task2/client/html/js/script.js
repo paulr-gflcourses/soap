@@ -1,7 +1,5 @@
-//const url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
-const url = `http://127.0.0.1/my/courses/soap/task2/client/index.php`;
+const url=`http://192.168.0.15/~user12/soap/task2/client/index.php`;
 let results = document.getElementById("results");
-
 
 function getCarList() {
     let formData = {

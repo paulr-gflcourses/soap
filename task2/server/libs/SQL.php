@@ -26,7 +26,6 @@ class SQL
         {
             throw new Exception('Connection error: ' . $e->getMessage());
         }
-
     }
 
     function select()
@@ -47,20 +46,14 @@ class SQL
         $this->prepStmt($params);
     }
 
-    function update()
+    function update($params)
     {
-        if ($this->userid && $this->userdata)
-        {
-            $this->prepStmt(array($this->userdata, $this->userid));
-        }
+        $this->prepStmt($params);
     }
 
-    function delete()
+    function delete($params)
     {
-        if ($this->userid && $this->userdata)
-        {
-            $this->prepStmt(array($this->userid, $this->userdata));
-        }
+        $this->prepStmt($params);
     }
 
     private function prepStmt($params)

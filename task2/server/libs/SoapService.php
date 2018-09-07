@@ -79,7 +79,7 @@ class SoapService
         $color = $data->color;
         $maxspeed = $data->maxspeed;
         $price = $data->price;
-        
+
         var_dump($data);
         if (!$year || !is_integer($year) || $year<1930 || $year>2018)
         {
@@ -87,7 +87,6 @@ class SoapService
         }
         $sql="SELECT id, mark, model FROM Cars";
         $sql.=" WHERE year=$year";
-
         if ($mark)
         {
             if (!is_string($mark))
